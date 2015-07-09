@@ -1,9 +1,12 @@
 #container-top{
-	width: 100%;
-	height: 69%;
+	width: 100% ;
+	display: inline-block;
+	float: none ;
+
+	vertical-align: middle;
     padding: 15px;
     border: solid;
-    
+
 }
 
 #game{
@@ -18,6 +21,10 @@
 	width:25%;
 	float:left;
 	/*overflow-y: scroll;*/
+}
+
+a{
+	color: #555;
 }
 
 #container-bot{

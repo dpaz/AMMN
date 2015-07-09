@@ -1,20 +1,53 @@
-<html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="main.css">
-		<title>AMN</title>
-	</head>
-	<body>
-		<div id="container-top">
-			<div id="game">
-				<p>Aqui va el juego</p>
-				<div class="btn noselect">Get Wood</div>
-			</div>
-			<div id="log">
-				<p>Aqui va el log</p>
-			</div>
-		</div>
-		<div id="container-bot">
-			<p>Aqui van los recursos</p>
-		</div>
-	</body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">
+    <title>AMMN</title>
+</head>
+
+<body>
+
+
+    <div class="container everything">
+        <div id="content">
+            <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                <li class="active"><a href="#timeline" data-toggle="tab">Index</a></li>
+                <li><a href="#myachievements" data-toggle="tab">achievements</a></li>
+
+            </ul>
+            <div id="my-tab-content" class="tab-content">
+                <div class="tab-pane active" id="timeline">
+									<div id="container-top">
+										<div id="game">
+											<p>Aqui va el juego</p>
+											<div class="btn noselect">Get Wood</div>
+
+
+										</div>
+										<div id="log">
+											<p>Aqui va el log</p>
+										</div>
+									</div>
+									<div id="container-bot">
+										<p>Aqui van los recursos</p>
+									</div>
+                </div>
+                <div class="tab-pane" id="myachievements">
+                    <h2>Achievements</h2>
+                    <div id="myachievements"></div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div> <!-- container -->
+
+		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+</body>
 </html>
