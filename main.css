@@ -9,6 +9,7 @@
 
 }
 
+
 #game{
 	display: inline-block;
 	width:75%;
@@ -65,4 +66,13 @@ a{
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+
+.notYet,
+.notYet.focus,
+.notYet:focus,
+.notYet:hover{
+	color: #999;
+	border: 1px solid #999;
 }
