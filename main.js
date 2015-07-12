@@ -6,26 +6,37 @@ $(document).ready(function() {
   var koalaBut = $('#recruitKoala');
   var koalaCount = $('#koalaCounter');
   var nKoala = 0;
+  var bCity=false;
 
   $('#getBamboo').click(function() {
-    var nBamboo = parseInt(bambooCount.text());
+    var nKoala = parseInt(koalaCount.text());
+  	var nBamboo = parseFloat(bambooCount.text());
+  	var costKoala = 5+(0.12*nKoala);
+
     nBamboo ++;
     bambooCount.text( nBamboo);
-    if(nBamboo >= 5){
+    if(nBamboo >= costKoala){
       koalaBut.attr('class', 'btn noselect');
+      if (!bCity) {
+      	$('#tabs').append("<li><a href=#mycity data-toggle=tab>city</a></li>");
+      	bCity = true;
+      };
     }
   });
 
   $('#recruitKoala').click(function(){
   	var nKoala = parseInt(koalaCount.text());
-  	var nBamboo = parseInt(bambooCount.text());
+  	var nBamboo = parseFloat(bambooCount.text());
+  	var costKoala = 5+(0.12*nKoala);
 
-    if(nBamboo >= 5){
+    if(nBamboo >= costKoala){
+        nBamboo -= costKoala;
     	nKoala ++;
-	    nBamboo = nBamboo -5;
+    	costKoala = 5+(0.12*nKoala);
+    	$('#recruitKoala').tooltip('hide').attr('data-original-title', "Recruit a koala | " + costKoala + " bamboo" ).tooltip('fixTitle').tooltip('show');
 	    bambooCount.text( nBamboo);
 	    koalaCount.text( nKoala);
-      	if (nBamboo < 5) {
+      	if (nBamboo < costKoala) {
       		koalaBut.attr('class','btn noselect notYet');
       	};
     }
