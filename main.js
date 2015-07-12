@@ -1,5 +1,6 @@
 $(document).ready(function() {
   $('#tabs').tab();
+  $('#recruitKoala').tooltip();
   var nBamboo = 0;
   var bambooCount = $('#bambooCounter');
   var koalaBut = $('#recruitKoala');
@@ -27,7 +28,7 @@ $(document).ready(function() {
       	if (nBamboo < 5) {
       		koalaBut.attr('class','btn noselect notYet');
       	};
-    } 
+    }
   });
 
 });
