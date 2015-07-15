@@ -4,16 +4,11 @@ $(document).ready(function() {
   $('#getHouse').tooltip();
   $('#upgrade1').tooltip();
 
-  var bamboo = new Resource("bamboo", 1,100,0,1);
-  var bambooCount = $('#bambooCounter');
+  var bamboo = new Resource("bamboo", 1,100,0,1, $('#bambooCounter'));
 
-  var koala = new Koala(0,2,5);
-  var koalaBut = $('#recruitKoala');
-  var koalaCount = $('#koalaCounter');
+  var koala = new Koala(0,2,5,$('#recruitKoala'),$('#koalaCounter'));
 
-  var house = new Building("house", 1,0,15);
-  var houseBut = $('#getHouse');
-  var houseCount = $('#houseCounter');
+  var house = new Building("house", 1,0,15,$('#getHouse'),$('#houseCounter'));
 
   var bCity=false;
   var bupgrades = false;
@@ -23,12 +18,12 @@ $(document).ready(function() {
   $('#getBamboo').click(function() {
 
     bamboo.quantity += bamboo.perClick;
-    bambooCount.text(bamboo.quantity);
+    bamboo.counter.text(bamboo.quantity);
     if(bamboo.quantity >= koala.cost){
-      koalaBut.attr('class', 'btn noselect');
+      koala.button.attr('class', 'btn noselect');
     }
     if (bamboo.quantity >= house.cost) {
-    	houseBut.attr('class', 'btn noselect');
+    	house.button.attr('class', 'btn noselect');
     };
     if (bamboo.quantity >= 20) {
     	$('#upgrade1').attr('class', 'btn noselect');
@@ -36,34 +31,34 @@ $(document).ready(function() {
   });
 
   //BOTON DE COMPRAR KOALA
-  $(koalaBut).click(function(){
+  $(koala.button).click(function(){
     if(koala.quantity < koala.max && bamboo.quantity >= koala.cost){
         bamboo.quantity -= koala.cost;
     	koala.quantity ++;
     	koala.cost = 1.75*koala.cost;
-    	$(koalaBut).tooltip('hide').attr('data-original-title', "Recruit a koala | " + koala.cost + " bamboo" ).tooltip('fixTitle').tooltip('show');
-	    bambooCount.text(bamboo.quantity);
-	    koalaCount.text(koala.quantity+"/"+koala.max);
+    	$(koala.button).tooltip('hide').attr('data-original-title', "Recruit a koala | " + koala.cost + " bamboo" ).tooltip('fixTitle').tooltip('show');
+	    bamboo.counter.text(bamboo.quantity);
+	    koala.counter.text(koala.quantity+"/"+koala.max);
       	if (bamboo.quantity < koala.cost) {
-      		koalaBut.attr('class','btn noselect notYet');
+      		koala.button.attr('class','btn noselect notYet');
       	};
     }
   });
 
   //BOTON DE COMPRAR CASA
-  $(houseBut).click(function() {
+  $(house.button).click(function() {
 
     if(bamboo.quantity >= house.cost){
       bamboo.quantity -= house.cost;;
       house.quantity++;
       house.cost = 15+(0.5*house.cost);
-      $(houseBut).tooltip('hide').attr('data-original-title', "Get a house | " + house.cost + " bamboo | +5 limit koala.max" ).tooltip('fixTitle').tooltip('show');
-      houseCount.text(house.quantity);
-	  bambooCount.text(bamboo.quantity);
+      $(house.button).tooltip('hide').attr('data-original-title', "Get a house | " + house.cost + " bamboo | +5 limit koala.max" ).tooltip('fixTitle').tooltip('show');
+      house.counter.text(house.quantity);
+	  bamboo.counter.text(bamboo.quantity);
 	  koala.max+=5;
-	  koalaCount.text(koala.quantity+"/"+koala.max);
+	  koala.counter.text(koala.quantity+"/"+koala.max);
       	if (bamboo.quantity < house.cost) {
-      		houseBut.attr('class','btn noselect notYet');
+      		house.button.attr('class','btn noselect notYet');
       	};
     }
   });
@@ -71,9 +66,9 @@ $(document).ready(function() {
   //PRUEBA DE UPGRADE
   $('#upgrade1').click(function(){
   	if (bamboo.quantity >=1) {
-  		bamboo.perClick++;
+  		bamboo.perClick+=10;
   		bamboo.quantity -=1;
-  		bambooCount.text(bamboo.quantity);
+  		bamboo.counter.text(bamboo.quantity);
   	};
   	console.log(bamboo.perClick)
   	$('#upgrade1').tooltip('destroy');

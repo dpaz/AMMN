@@ -1,9 +1,10 @@
-function Resource(name,modifier,max,quantity,perClick) {
+function Resource(name,modifier,max,quantity,perClick,counter) {
   this.name = name;
   this.modifier = modifier;
   this.max = max;
   this.quantity = quantity;
   this.perClick = perClick;
+  this.counter = counter;
 }
 
 Resource.prototype.name = function() {
@@ -24,5 +25,9 @@ Resource.prototype.quantity = function() {
 
 Resource.prototype.perClick = function() {
   return this.perClick;
+};
+
+Resource.prototype.counter = function() {
+  return this.counter;
 };
 
