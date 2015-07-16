@@ -1,11 +1,12 @@
-function Resource(name,modifier,max,quantity,perClick,counter,perTick) {
+function Job(name,modifier,max,quantity,suc,plus,perTick,counter) {
   this.name = name;
   this.modifier = modifier;
   this.max = max;
   this.quantity = quantity;
-  this.perClick = perClick;
-  this.counter = counter;
+  this.suc = suc;
+  this.plus = plus;
   this.perTick = perTick;
+  this.counter = counter;
 }
 
 Resource.prototype.name = function() {
@@ -24,15 +25,19 @@ Resource.prototype.quantity = function() {
   return this.quantity;
 };
 
-Resource.prototype.perClick = function() {
-  return this.perClick;
+Resource.prototype.suc = function() {
+  return this.suc;
 };
 
-Resource.prototype.counter = function() {
-  return this.counter;
+Resource.prototype.plus = function() {
+  return this.plus;
 };
 
 Resource.prototype.perTick = function() {
   return this.perTick;
+};
+
+Resource.prototype.counter = function() {
+  return this.counter;
 };
 

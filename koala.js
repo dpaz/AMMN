@@ -1,9 +1,10 @@
-function Koala(quantity,max,cost,button,counter) {
+function Koala(quantity,max,cost,button,counter,available) {
   this.quantity = quantity;         
   this.max = max;
   this.cost = cost;
   this.button = button;
   this.counter = counter;
+  this.available = available;
 }
 
 Resource.prototype.quantity = function() {
@@ -24,6 +25,10 @@ Resource.prototype.button = function() {
 
 Resource.prototype.counter = function() {
   return this.counter;
+};
+
+Resource.prototype.available = function() {
+  return this.available;
 };
 
 

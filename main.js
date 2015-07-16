@@ -1,14 +1,19 @@
 $(document).ready(function() {
+
+
   $('#tabs').tab();
   $('#recruitKoala').tooltip();
   $('#getHouse').tooltip();
   $('#upgrade1').tooltip();
+  $('#jobFarmer').tooltip();
 
   var bamboo = new Resource("bamboo", 1,100,0,1, $('#bambooCounter'));
 
-  var koala = new Koala(0,2,5,$('#recruitKoala'),$('#koalaCounter'));
+  var koala = new Koala(0,2,5,$('#recruitKoala'),$('#koalaCounter'),0);
 
   var house = new Building("house", 1,0,15,$('#getHouse'));
+
+  var farmer = new Job("farmer", 1,5,0,$('#sucFarmer'),$('#plusFarmer'),1,$('#jobFarmer'));
 
   //VARIABLES PROVISIONALES PARA LAS ERAS
   var bCity=false;
@@ -34,8 +39,9 @@ $(document).ready(function() {
   //BOTON DE COMPRAR KOALA
   $(koala.button).click(function(){
     if(koala.quantity < koala.max && bamboo.quantity >= koala.cost){
-        bamboo.quantity -= koala.cost;
+      bamboo.quantity -= koala.cost;
       koala.quantity ++;
+      koala.available++;
       koala.cost = 1.75*koala.cost;
       $(koala.button).tooltip('hide').attr('data-original-title', "Recruit a koala | " + koala.cost + " bamboo" ).tooltip('fixTitle').tooltip('show');    //MODIFICACIONES DEL INFO
       bamboo.counter.text(bamboo.quantity);
@@ -55,9 +61,9 @@ $(document).ready(function() {
       house.cost = 15+(0.5*house.cost);
       $(house.button).tooltip('hide').attr('data-original-title', "Get a house | " + house.cost + " bamboo | +5 limit koala.max" ).tooltip('fixTitle').tooltip('show');   //MODIFICACIONES DEL INFO
       house.button.html("House (" + house.quantity + ")");    //CAMBIAMOS EL HTML MEJOR PARA QUE OCUPE MENOS ESPACIO Y NO CREAR MUCHOS DIVS
-    bamboo.counter.text(bamboo.quantity);
-    koala.max+=5;
-    koala.counter.text(koala.quantity+"/"+koala.max);
+      bamboo.counter.text(bamboo.quantity);
+      koala.max+=5;
+      koala.counter.text(koala.quantity+"/"+koala.max);
         if (bamboo.quantity < house.cost) {
           house.button.attr('class','btn noselect notYet');
         };
@@ -82,18 +88,41 @@ $(document).ready(function() {
     if (!bCity) {
       bCity = true;
       $('#tabs').append("<li><a href=#mycity data-toggle=tab>city</a></li>");
-        $('#myachievements ul').append("<li>Your first advance</li>");
-        $('#container-era').html("<h2>SECOND ERA</h2>");
+      $('#myachievements ul').append("<li>Your first advance</li>");
+      $('#container-era').html("<h2>SECOND ERA</h2>");
     }else if (bCity && !bupgrades) {
       bupgrades = true;
       $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>upgrades</a></li>");
-        $('#myachievements ul').append("<li>Your second advance</li>");
-        $('#container-era').html("<h2>THIRD ERA</h2>");
+      $('#myachievements ul').append("<li>Your second advance</li>");
+      $('#container-era').html("<h2>THIRD ERA</h2>");
     }else if (bupgrades && !bjobs){
       bjobs = true;
       $('#tabs').append("<li><a href=#myjobs data-toggle=tab>jobs</a></li>");
-        $('#container-era').html("<h2>FOURTH ERA</h2>");
+      $('#container-era').html("<h2>FOURTH ERA</h2>");
     };
   });
 
+  $('#sucFarmer').click(function(){
+    if (farmer.quantity > 0) {
+     farmer.quantity--;
+     farmer.counter.html("Farmer(" + farmer.quantity + ")");
+     koala.available++;
+    };
+  });
+
+  $('#plusFarmer').click(function(){
+    if (koala.available > 0) {
+     koala.available--;
+     farmer.quantity++;
+     farmer.counter.html("Farmer(" + farmer.quantity + ")");
+    };
+  });
+
+  window.setInterval(function() {
+    console.log(farmer.quantity);
+    if (farmer.quantity>0) {
+      bamboo.quantity = bamboo.quantity + (farmer.quantity*farmer.perTick);
+      bamboo.counter.text(bamboo.quantity);
+    };
+  }, 1000);
 });
