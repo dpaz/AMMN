@@ -1,5 +1,5 @@
 function Koala(quantity,max,cost,button,counter) {
-  this.quantity = quantity;
+  this.quantity = quantity;         
   this.max = max;
   this.cost = cost;
   this.button = button;

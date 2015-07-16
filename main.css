@@ -1,9 +1,9 @@
 #container-top{
-	width: 100% ;
-	display: inline-block;
-	float: none ;
+    width: 100% ;
+    display: inline-block;
+    float: none ;
 
-	vertical-align: middle;
+    vertical-align: middle;
     padding: 15px;
     border: solid;
 
@@ -11,25 +11,25 @@
 
 
 #game{
-	display: inline-block;
-	width:75%;
-	float:left;
-	/*overflow-y: scroll;*/
+    display: inline-block;
+    width:75%;
+    float:left;
+    /*overflow-y: scroll;*/
 }
 
 #log{
-	display: inline-block;
-	width:25%;
-	float:left;
-	/*overflow-y: scroll;*/
+    display: inline-block;
+    width:25%;
+    float:left;
+    /*overflow-y: scroll;*/
 }
 
 a{
-	color: #555;
+    color: #555;
 }
 
 #container-bot{
- 	width: 100%;
+    width: 100%;
     display: inline-block;
     float: none ;
     padding: 15px;
@@ -47,7 +47,7 @@ a{
 
 
 .btn{
-	border: 1px solid black;
+    border: 1px solid black;
     padding: 5px;
     cursor: default;
     width: 170px;
@@ -81,6 +81,6 @@ a{
 .notYet.focus,
 .notYet:focus,
 .notYet:hover{
-	color: #999;
-	border: 1px solid #999;
+    color: #999;
+    border: 1px solid #999;
 }
