@@ -6,19 +6,14 @@ $(document).ready(function() {
   $('#getHouse').tooltip();
   $('#upgrade1').tooltip();
   $('#jobFarmer').tooltip();
-
   
-  
-  
+  var bamboo;
+  var house;
+  var koalas;
+  var farmer;
+  var era;
 
-  
-
-  
-  
-
-  var interSave = 3600000;
-
-
+  var interSave = 100;
 
   //VARIABLES PROVISIONALES PARA LAS ERAS
   var bCity=false;
@@ -27,15 +22,10 @@ $(document).ready(function() {
 
 
   loadGame();
-
-
-
-
+  console.log(koala.quantity)
   //BOTON DE CONSEGUIR BAMBOO
   $('#getBamboo').click(function() {
    
-  
-
     bamboo.quantity += bamboo.perClick;
     bamboo.counter.text(bamboo.quantity);
     if(bamboo.quantity >= koala.cost){
@@ -69,7 +59,7 @@ $(document).ready(function() {
   $(house.button).click(function() {
 
     if(bamboo.quantity >= house.cost){
-      bamboo.quantity -= house.cost;;
+      bamboo.quantity -= house.cost;
       house.quantity++;
       house.cost = 15+(0.5*house.cost);
       $(house.button).tooltip('hide').attr('data-original-title', "Get a house | " + house.cost + " bamboo | +5 limit koala.max" ).tooltip('fixTitle').tooltip('show');   //MODIFICACIONES DEL INFO
@@ -134,9 +124,9 @@ $(document).ready(function() {
   });
 
   window.setInterval(function() {
-    console.log(bamboo.perTick);
     bamboo.quantity+= bamboo.perTick;
     bambooCounter = bamboo.quantity;
+    bamboo.counter.text(bamboo.quantity);
   }, 1000);
 
 
@@ -152,25 +142,36 @@ $(document).ready(function() {
 
   //Para cargar los datos se llama al item que antes hemos creado y se parsea
   function loadGame(){
-
-    var bamboo = JSON.parse(localStorage.getItem("bamboo"));
+    bamboo = JSON.parse(localStorage.getItem("bamboo"));
     if(bamboo == undefined){
       bamboo = new Resource("bamboo", 1,100,0,1, $('#bambooCounter'),0);
+    }else{
+      bamboo.counter = $('#bambooCounter');
+      bamboo.counter.text(bamboo.quantity);
     }
-    var koala = JSON.parse(localStorage.getItem("koalas"));
+    koala = JSON.parse(localStorage.getItem("koalas"));
     if(koala == undefined){
       koala = new Koala(0,2,5,$('#recruitKoala'),$('#koalaCounter'),0);
+    }else{
+      koala.button = $('#recruitKoala');
+      koala.counter = $('#koalaCounter');
+      koala.counter.text(koala.quantity+"/"+koala.max);
     }
-    var house = JSON.parse(localStorage.getItem("house"));
+    house = JSON.parse(localStorage.getItem("house"));
     if(house == undefined){
       house = new Building("house", 1,0,15,$('#getHouse'));
+    }else{
+      house.button = $('#getHouse');
+      house.button.html("House (" + house.quantity + ")");    //CAMBIAMOS EL HTML MEJOR PARA QUE OCUPE MENOS ESPACIO Y NO CREAR MUCHOS DIVS
     }
-    var farmer = JSON.parse(localStorage.getItem("farmer"));
+    farmer = JSON.parse(localStorage.getItem("farmer"));
     if(farmer == undefined){
       farmer = new Job("farmer", 1,5,0,$('#sucFarmer'),$('#plusFarmer'),1,$('#jobFarmer'));
+    }else{
+      farmer.suc = $('#sucFarmer');
+      farmer.plus = $('#plusFarmer');
+      farmer.counter = $('#jobFarmer');
     }
-    
-
     $('#container-era').html(localStorage.era); 
   }
 
