@@ -7,21 +7,34 @@ $(document).ready(function() {
   $('#upgrade1').tooltip();
   $('#jobFarmer').tooltip();
 
-  var bamboo = new Resource("bamboo", 1,100,0,1, $('#bambooCounter'));
+  
+  
+  
 
-  var koala = new Koala(0,2,5,$('#recruitKoala'),$('#koalaCounter'),0);
+  
 
-  var house = new Building("house", 1,0,15,$('#getHouse'));
+  
+  
 
-  var farmer = new Job("farmer", 1,5,0,$('#sucFarmer'),$('#plusFarmer'),1,$('#jobFarmer'));
+  var interSave = 3600000;
+
+
 
   //VARIABLES PROVISIONALES PARA LAS ERAS
   var bCity=false;
   var bupgrades = false;
   var bjobs = false;
 
+
+  loadGame();
+
+
+
+
   //BOTON DE CONSEGUIR BAMBOO
   $('#getBamboo').click(function() {
+   
+  
 
     bamboo.quantity += bamboo.perClick;
     bamboo.counter.text(bamboo.quantity);
@@ -106,6 +119,7 @@ $(document).ready(function() {
     if (farmer.quantity > 0) {
      farmer.quantity--;
      farmer.counter.html("Farmer(" + farmer.quantity + ")");
+     bamboo.perTick -= farmer.perTick;
      koala.available++;
     };
   });
@@ -115,14 +129,47 @@ $(document).ready(function() {
      koala.available--;
      farmer.quantity++;
      farmer.counter.html("Farmer(" + farmer.quantity + ")");
+     bamboo.perTick += farmer.perTick;
     };
   });
 
   window.setInterval(function() {
-    console.log(farmer.quantity);
-    if (farmer.quantity>0) {
-      bamboo.quantity = bamboo.quantity + (farmer.quantity*farmer.perTick);
-      bamboo.counter.text(bamboo.quantity);
-    };
+    console.log(bamboo.perTick);
+    bamboo.quantity+= bamboo.perTick;
   }, 1000);
+
+
+
+  window.setInterval(function(){
+    localStorage.setItem("bamboo",bamboo);
+    localStorage.setItem("house",house);
+    localStorage.setItem("koalas",koala);
+    localStorage.setItem("farmer",farmer);
+    localStorage.setItem("era",$('#container-era').html());
+  }, interSave)
+
+
+  function loadGame(){
+
+    var bamboo = localStorage.bamboo;
+    if(bamboo == undefined){
+      bamboo = new Resource("bamboo", 1,100,0,1, $('#bambooCounter'),0);
+    }
+    var koala = localStorage.koala;
+    if(koala == undefined){
+      koala = new Koala(0,2,5,$('#recruitKoala'),$('#koalaCounter'),0);
+    }
+    var house = localStorage.house;
+    if(house == undefined){
+      house = new Building("house", 1,0,15,$('#getHouse'));
+    }
+    var farmer = localStorage.farmer;
+    if(farmer == undefined){
+      farmer = new Job("farmer", 1,5,0,$('#sucFarmer'),$('#plusFarmer'),1,$('#jobFarmer'));
+    }
+    
+
+    $('#container-era').html(localStorage.era); 
+  }
+
 });
