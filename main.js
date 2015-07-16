@@ -136,34 +136,36 @@ $(document).ready(function() {
   window.setInterval(function() {
     console.log(bamboo.perTick);
     bamboo.quantity+= bamboo.perTick;
+    bambooCounter = bamboo.quantity;
   }, 1000);
 
 
-
+  //Cada minuto guarda el valor de las variables
+  //JSON.stringify convierte el objeto a JSON ya que solo se pueden guardar strings con localstorage
   window.setInterval(function(){
-    localStorage.setItem("bamboo",bamboo);
-    localStorage.setItem("house",house);
-    localStorage.setItem("koalas",koala);
-    localStorage.setItem("farmer",farmer);
+    localStorage.setItem("bamboo",JSON.stringify(bamboo));
+    localStorage.setItem("house",JSON.stringify(house));
+    localStorage.setItem("koalas",JSON.stringify(koala));
+    localStorage.setItem("farmer",JSON.stringify(farmer));
     localStorage.setItem("era",$('#container-era').html());
   }, interSave)
 
-
+  //Para cargar los datos se llama al item que antes hemos creado y se parsea
   function loadGame(){
 
-    var bamboo = localStorage.bamboo;
+    var bamboo = JSON.parse(localStorage.getItem("bamboo"));
     if(bamboo == undefined){
       bamboo = new Resource("bamboo", 1,100,0,1, $('#bambooCounter'),0);
     }
-    var koala = localStorage.koala;
+    var koala = JSON.parse(localStorage.getItem("koalas"));
     if(koala == undefined){
       koala = new Koala(0,2,5,$('#recruitKoala'),$('#koalaCounter'),0);
     }
-    var house = localStorage.house;
+    var house = JSON.parse(localStorage.getItem("house"));
     if(house == undefined){
       house = new Building("house", 1,0,15,$('#getHouse'));
     }
-    var farmer = localStorage.farmer;
+    var farmer = JSON.parse(localStorage.getItem("farmer"));
     if(farmer == undefined){
       farmer = new Job("farmer", 1,5,0,$('#sucFarmer'),$('#plusFarmer'),1,$('#jobFarmer'));
     }
