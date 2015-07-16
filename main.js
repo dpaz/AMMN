@@ -13,7 +13,7 @@ $(document).ready(function() {
   var farmer;
   var era;
 
-  var interSave = 100;
+  var interSave = 3600000;
 
   //VARIABLES PROVISIONALES PARA LAS ERAS
   var bCity=false;
