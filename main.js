@@ -11,9 +11,9 @@ $(document).ready(function() {
   var house;
   var koalas;
   var farmer;
-  var era;
+  var era = $('#container-era');
 
-  var interSave = 3600000;
+  var interSave = 10000;
 
   //VARIABLES PROVISIONALES PARA LAS ERAS
   var bCity=false;
@@ -133,46 +133,114 @@ $(document).ready(function() {
   //Cada minuto guarda el valor de las variables
   //JSON.stringify convierte el objeto a JSON ya que solo se pueden guardar strings con localstorage
   window.setInterval(function(){
+    
     localStorage.setItem("bamboo",JSON.stringify(bamboo));
     localStorage.setItem("house",JSON.stringify(house));
     localStorage.setItem("koalas",JSON.stringify(koala));
     localStorage.setItem("farmer",JSON.stringify(farmer));
-    localStorage.setItem("era",$('#container-era').html());
+    localStorage.setItem("era",era.html());
+    console.log("guardado");
   }, interSave)
 
   //Para cargar los datos se llama al item que antes hemos creado y se parsea
   function loadGame(){
-    bamboo = JSON.parse(localStorage.getItem("bamboo"));
-    if(bamboo == undefined){
+    
+    //Load bamboo
+    try{
+      bamboo = JSON.parse(localStorage.getItem("bamboo"));
+      if(bamboo == undefined){
+        bamboo = new Resource("bamboo", 1,100,0,1, $('#bambooCounter'),0);
+      }else{
+        bamboo.counter = $('#bambooCounter');
+        bamboo.counter.text(bamboo.quantity);
+      }
+    }catch(err){
       bamboo = new Resource("bamboo", 1,100,0,1, $('#bambooCounter'),0);
-    }else{
       bamboo.counter = $('#bambooCounter');
       bamboo.counter.text(bamboo.quantity);
     }
-    koala = JSON.parse(localStorage.getItem("koalas"));
-    if(koala == undefined){
+
+    //Load  Koala
+    try{
+      koala = JSON.parse(localStorage.getItem("koalas"));
+      if(koala == undefined || koala == ""){
+        koala = new Koala(0,2,5,$('#recruitKoala'),$('#koalaCounter'),0);
+      }else{
+        koala.button = $('#recruitKoala');
+        koala.counter = $('#koalaCounter');
+        koala.counter.text(koala.quantity+"/"+koala.max);
+      }
+    }catch(err){
       koala = new Koala(0,2,5,$('#recruitKoala'),$('#koalaCounter'),0);
-    }else{
       koala.button = $('#recruitKoala');
       koala.counter = $('#koalaCounter');
       koala.counter.text(koala.quantity+"/"+koala.max);
     }
-    house = JSON.parse(localStorage.getItem("house"));
-    if(house == undefined){
+
+    //Load House
+    try{
+      house = JSON.parse(localStorage.getItem("house"));
+      if(house == undefined || house == ""){
+        house = new Building("house", 1,0,15,$('#getHouse'));
+      }else{
+        house.button = $('#getHouse');
+        house.button.html("House (" + house.quantity + ")");    //CAMBIAMOS EL HTML MEJOR PARA QUE OCUPE MENOS ESPACIO Y NO CREAR MUCHOS DIVS
+      }
+    }catch(err){
       house = new Building("house", 1,0,15,$('#getHouse'));
-    }else{
       house.button = $('#getHouse');
-      house.button.html("House (" + house.quantity + ")");    //CAMBIAMOS EL HTML MEJOR PARA QUE OCUPE MENOS ESPACIO Y NO CREAR MUCHOS DIVS
+      house.button.html("House (" + house.quantity + ")"); 
     }
-    farmer = JSON.parse(localStorage.getItem("farmer"));
-    if(farmer == undefined){
+    
+    //Load Farmer
+    try{
+      farmer = JSON.parse(localStorage.getItem("farmer"));
+      if(farmer == undefined || farmer == ""){
+        farmer = new Job("farmer", 1,5,0,$('#sucFarmer'),$('#plusFarmer'),1,$('#jobFarmer'));
+      }else{
+        farmer.suc = $('#sucFarmer');
+        farmer.plus = $('#plusFarmer');
+        farmer.counter = $('#jobFarmer');
+      }
+    }catch(err){
       farmer = new Job("farmer", 1,5,0,$('#sucFarmer'),$('#plusFarmer'),1,$('#jobFarmer'));
-    }else{
       farmer.suc = $('#sucFarmer');
       farmer.plus = $('#plusFarmer');
       farmer.counter = $('#jobFarmer');
     }
-    $('#container-era').html(localStorage.era); 
+    
+    era.html(localStorage.era);
+    console.log(era.html());
+    if(era.html()==""){
+      era.html("<h2>FIRST ERA</h2>")
+    }
+    
+
+    //If para que aparezcan los tabs seguro que debe haber un metodo mejor
+    if(era.html()=="<h2>SECOND ERA</h2>"){
+      $('#tabs').append("<li><a href=#mycity data-toggle=tab>city</a></li>");      
+    }else if(era.html()=="<h2>THIRD ERA</h2>"){
+      $('#tabs').append("<li><a href=#mycity data-toggle=tab>city</a></li>");
+      $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>upgrades</a></li>");
+    }else if(era.html()=="<h2>FOURTH ERA</h2>"){
+      $('#tabs').append("<li><a href=#myjobs data-toggle=tab>jobs</a></li>");
+      $('#tabs').append("<li><a href=#mycity data-toggle=tab>city</a></li>");
+      $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>upgrades</a></li>");
+    }
   }
+
+
+  $('#wipe').click(function(){
+
+
+    localStorage.setItem("bamboo",undefined);
+    localStorage.setItem("house",undefined);
+    localStorage.setItem("koalas",undefined);
+    localStorage.setItem("farmer",undefined);
+    localStorage.setItem("era","<h2>FIRST ERA</h2>");
+    console.log("wipe save");
+
+    location.reload();
+  })
 
 });
