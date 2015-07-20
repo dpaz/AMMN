@@ -6,7 +6,7 @@ $(document).ready(function() {
   $('#getHouse').tooltip();
   $('#upgrade1').tooltip();
   $('#jobFarmer').tooltip();
-  
+
   var bamboo;
   var house;
   var koalas;
@@ -25,7 +25,7 @@ $(document).ready(function() {
   console.log(koala.quantity)
   //BOTON DE CONSEGUIR BAMBOO
   $('#getBamboo').click(function() {
-   
+
     bamboo.quantity += bamboo.perClick;
     bamboo.counter.text(bamboo.quantity);
     if(bamboo.quantity >= koala.cost){
@@ -45,7 +45,7 @@ $(document).ready(function() {
       bamboo.quantity -= koala.cost;
       koala.quantity ++;
       koala.available++;
-      koala.cost = 1.75*koala.cost;
+      koala.cost = Math.round(1.75*koala.cost);
       $(koala.button).tooltip('hide').attr('data-original-title', "Recruit a koala | " + koala.cost + " bamboo" ).tooltip('fixTitle').tooltip('show');    //MODIFICACIONES DEL INFO
       bamboo.counter.text(bamboo.quantity);
       koala.counter.text(koala.quantity+"/"+koala.max);
@@ -61,13 +61,14 @@ $(document).ready(function() {
     if(bamboo.quantity >= house.cost){
       bamboo.quantity -= house.cost;
       house.quantity++;
-      house.cost = 15+(0.5*house.cost);
+      house.cost = 15+Math.round(0.5*house.cost);
       $(house.button).tooltip('hide').attr('data-original-title', "Get a house | " + house.cost + " bamboo | +5 limit koala.max" ).tooltip('fixTitle').tooltip('show');   //MODIFICACIONES DEL INFO
       house.button.html("House (" + house.quantity + ")");    //CAMBIAMOS EL HTML MEJOR PARA QUE OCUPE MENOS ESPACIO Y NO CREAR MUCHOS DIVS
       bamboo.counter.text(bamboo.quantity);
       koala.max+=5;
       koala.counter.text(koala.quantity+"/"+koala.max);
         if (bamboo.quantity < house.cost) {
+
           house.button.attr('class','btn noselect notYet');
         };
     }
@@ -133,7 +134,7 @@ $(document).ready(function() {
   //Cada minuto guarda el valor de las variables
   //JSON.stringify convierte el objeto a JSON ya que solo se pueden guardar strings con localstorage
   window.setInterval(function(){
-    
+
     localStorage.setItem("bamboo",JSON.stringify(bamboo));
     localStorage.setItem("house",JSON.stringify(house));
     localStorage.setItem("koalas",JSON.stringify(koala));
@@ -144,7 +145,7 @@ $(document).ready(function() {
 
   //Para cargar los datos se llama al item que antes hemos creado y se parsea
   function loadGame(){
-    
+
     //Load bamboo
     try{
       bamboo = JSON.parse(localStorage.getItem("bamboo"));
@@ -189,9 +190,9 @@ $(document).ready(function() {
     }catch(err){
       house = new Building("house", 1,0,15,$('#getHouse'));
       house.button = $('#getHouse');
-      house.button.html("House (" + house.quantity + ")"); 
+      house.button.html("House (" + house.quantity + ")");
     }
-    
+
     //Load Farmer
     try{
       farmer = JSON.parse(localStorage.getItem("farmer"));
@@ -208,17 +209,17 @@ $(document).ready(function() {
       farmer.plus = $('#plusFarmer');
       farmer.counter = $('#jobFarmer');
     }
-    
+
     era.html(localStorage.era);
     console.log(era.html());
     if(era.html()==""){
       era.html("<h2>FIRST ERA</h2>")
     }
-    
+
 
     //If para que aparezcan los tabs seguro que debe haber un metodo mejor
     if(era.html()=="<h2>SECOND ERA</h2>"){
-      $('#tabs').append("<li><a href=#mycity data-toggle=tab>city</a></li>");      
+      $('#tabs').append("<li><a href=#mycity data-toggle=tab>city</a></li>");
     }else if(era.html()=="<h2>THIRD ERA</h2>"){
       $('#tabs').append("<li><a href=#mycity data-toggle=tab>city</a></li>");
       $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>upgrades</a></li>");
