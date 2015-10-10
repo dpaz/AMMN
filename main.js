@@ -7,7 +7,7 @@ $(document).ready(function() {
   $('#upgrade1').tooltip();
   $('#jobFarmer').tooltip();
 
-  var bamboo;
+  var eucalyptus;
   var house;
   var koalas;
   var farmer;
@@ -23,33 +23,33 @@ $(document).ready(function() {
 
   loadGame();
   console.log(koala.quantity)
-  //BOTON DE CONSEGUIR BAMBOO
-  $('#getBamboo').click(function() {
+  //BOTON DE CONSEGUIR eucalyptus
+  $('#geteucalyptus').click(function() {
 
-    bamboo.quantity += bamboo.perClick;
-    bamboo.counter.text(bamboo.quantity);
-    if(bamboo.quantity >= koala.cost){
+    eucalyptus.quantity += eucalyptus.perClick;
+    eucalyptus.counter.text(eucalyptus.quantity);
+    if(eucalyptus.quantity >= koala.cost){
       koala.button.attr('class', 'btn noselect');
     }
-    if (bamboo.quantity >= house.cost) {
+    if (eucalyptus.quantity >= house.cost) {
       house.button.attr('class', 'btn noselect');
     };
-    if (bamboo.quantity >= 20) {
+    if (eucalyptus.quantity >= 20) {
       $('#upgrade1').attr('class', 'btn noselect');
     };
   });
 
   //BOTON DE COMPRAR KOALA
   $(koala.button).click(function(){
-    if(koala.quantity < koala.max && bamboo.quantity >= koala.cost){
-      bamboo.quantity -= koala.cost;
+    if(koala.quantity < koala.max && eucalyptus.quantity >= koala.cost){
+      eucalyptus.quantity -= koala.cost;
       koala.quantity ++;
       koala.available++;
       koala.cost = Math.round(1.75*koala.cost);
-      $(koala.button).tooltip('hide').attr('data-original-title', "Recruit a koala | " + koala.cost + " bamboo" ).tooltip('fixTitle').tooltip('show');    //MODIFICACIONES DEL INFO
-      bamboo.counter.text(bamboo.quantity);
+      $(koala.button).tooltip('hide').attr('data-original-title', "Recruit a koala | " + koala.cost + " eucalyptus" ).tooltip('fixTitle').tooltip('show');    //MODIFICACIONES DEL INFO
+      eucalyptus.counter.text(eucalyptus.quantity);
       koala.counter.text(koala.quantity+"/"+koala.max);
-        if (bamboo.quantity < koala.cost) {
+        if (eucalyptus.quantity < koala.cost) {
           koala.button.attr('class','btn noselect notYet');
         };
     }
@@ -58,16 +58,16 @@ $(document).ready(function() {
   //BOTON DE COMPRAR CASA
   $(house.button).click(function() {
 
-    if(bamboo.quantity >= house.cost){
-      bamboo.quantity -= house.cost;
+    if(eucalyptus.quantity >= house.cost){
+      eucalyptus.quantity -= house.cost;
       house.quantity++;
       house.cost = 15+Math.round(0.5*house.cost);
-      $(house.button).tooltip('hide').attr('data-original-title', "Get a house | " + house.cost + " bamboo | +5 limit koala.max" ).tooltip('fixTitle').tooltip('show');   //MODIFICACIONES DEL INFO
+      $(house.button).tooltip('hide').attr('data-original-title', "Get a house | " + house.cost + " eucalyptus | +5 limit koala.max" ).tooltip('fixTitle').tooltip('show');   //MODIFICACIONES DEL INFO
       house.button.html("House (" + house.quantity + ")");    //CAMBIAMOS EL HTML MEJOR PARA QUE OCUPE MENOS ESPACIO Y NO CREAR MUCHOS DIVS
-      bamboo.counter.text(bamboo.quantity);
+      eucalyptus.counter.text(eucalyptus.quantity);
       koala.max+=5;
       koala.counter.text(koala.quantity+"/"+koala.max);
-        if (bamboo.quantity < house.cost) {
+        if (eucalyptus.quantity < house.cost) {
 
           house.button.attr('class','btn noselect notYet');
         };
@@ -76,12 +76,12 @@ $(document).ready(function() {
 
   //PRUEBA DE UPGRADE
   $('#upgrade1').click(function(){
-    if (bamboo.quantity >=1) {
-      bamboo.perClick+=10;
-      bamboo.quantity -=1;
-      bamboo.counter.text(bamboo.quantity);
+    if (eucalyptus.quantity >=1) {
+      eucalyptus.perClick+=10;
+      eucalyptus.quantity -=1;
+      eucalyptus.counter.text(eucalyptus.quantity);
     };
-    console.log(bamboo.perClick)
+    console.log(eucalyptus.perClick)
     $('#upgrade1').tooltip('destroy');
     $('#upgrade1').remove();
   });
@@ -110,7 +110,7 @@ $(document).ready(function() {
     if (farmer.quantity > 0) {
      farmer.quantity--;
      farmer.counter.html("Farmer(" + farmer.quantity + ")");
-     bamboo.perTick -= farmer.perTick;
+     eucalyptus.perTick -= farmer.perTick;
      koala.available++;
     };
   });
@@ -120,14 +120,14 @@ $(document).ready(function() {
      koala.available--;
      farmer.quantity++;
      farmer.counter.html("Farmer(" + farmer.quantity + ")");
-     bamboo.perTick += farmer.perTick;
+     eucalyptus.perTick += farmer.perTick;
     };
   });
 
   window.setInterval(function() {
-    bamboo.quantity+= bamboo.perTick;
-    bambooCounter = bamboo.quantity;
-    bamboo.counter.text(bamboo.quantity);
+    eucalyptus.quantity+= eucalyptus.perTick;
+    eucalyptusCounter = eucalyptus.quantity;
+    eucalyptus.counter.text(eucalyptus.quantity);
   }, 1000);
 
 
@@ -135,7 +135,7 @@ $(document).ready(function() {
   //JSON.stringify convierte el objeto a JSON ya que solo se pueden guardar strings con localstorage
   window.setInterval(function(){
 
-    localStorage.setItem("bamboo",JSON.stringify(bamboo));
+    localStorage.setItem("eucalyptus",JSON.stringify(eucalyptus));
     localStorage.setItem("house",JSON.stringify(house));
     localStorage.setItem("koalas",JSON.stringify(koala));
     localStorage.setItem("farmer",JSON.stringify(farmer));
@@ -146,19 +146,19 @@ $(document).ready(function() {
   //Para cargar los datos se llama al item que antes hemos creado y se parsea
   function loadGame(){
 
-    //Load bamboo
+    //Load eucalyptus
     try{
-      bamboo = JSON.parse(localStorage.getItem("bamboo"));
-      if(bamboo == undefined){
-        bamboo = new Resource("bamboo", 1,100,0,1, $('#bambooCounter'),0);
+      eucalyptus = JSON.parse(localStorage.getItem("eucalyptus"));
+      if(eucalyptus == undefined){
+        eucalyptus = new Resource("eucalyptus", 1,100,0,1, $('#eucalyptusCounter'),0);
       }else{
-        bamboo.counter = $('#bambooCounter');
-        bamboo.counter.text(bamboo.quantity);
+        eucalyptus.counter = $('#eucalyptusCounter');
+        eucalyptus.counter.text(eucalyptus.quantity);
       }
     }catch(err){
-      bamboo = new Resource("bamboo", 1,100,0,1, $('#bambooCounter'),0);
-      bamboo.counter = $('#bambooCounter');
-      bamboo.counter.text(bamboo.quantity);
+      eucalyptus = new Resource("eucalyptus", 1,100,0,1, $('#eucalyptusCounter'),0);
+      eucalyptus.counter = $('#eucalyptusCounter');
+      eucalyptus.counter.text(eucalyptus.quantity);
     }
 
     //Load  Koala
@@ -234,7 +234,7 @@ $(document).ready(function() {
   $('#wipe').click(function(){
 
 
-    localStorage.setItem("bamboo",undefined);
+    localStorage.setItem("eucalyptus",undefined);
     localStorage.setItem("house",undefined);
     localStorage.setItem("koalas",undefined);
     localStorage.setItem("farmer",undefined);
