@@ -12,6 +12,7 @@ $(document).ready(function() {
   var koalas;
   var farmer;
   var era = $('#container-era');
+  var white= true;
 
   var interSave = 10000;
 
@@ -242,6 +243,28 @@ $(document).ready(function() {
     console.log("wipe save");
 
     location.reload();
+  })
+
+  $('#changeColor').click(function(){
+    if(white){
+      $('html, body').css('background', 'rgb(0, 0, 0) none repeat scroll 0 0');
+      $('html, body').css('border-color', 'rgb(255, 255, 255)');
+      $('html, body').css('color', 'rgb(255, 255, 255)');
+      $(this).css('background', 'rgb(255, 255, 255) none repeat scroll 0 0');
+      $(this).css('border-color', 'rgb(0, 0, 0)');
+      $(this).css('color', 'rgb(0, 0, 0)');
+      white=false;
+    }else{
+      $('html, body').css('background', 'rgb(255, 255, 255) none repeat scroll 0 0');
+      $('html, body').css('border-color', 'rgb(0, 0, 0)');
+      $('html, body').css('color', 'rgb(0, 0, 0)');
+      $(this).css('background', 'rgb(0, 0, 0) none repeat scroll 0 0');
+      $(this).css('border-color', 'rgb(255, 255, 255)');
+      $(this).css('color', 'rgb(255, 255, 255)');
+      white=true;
+    }
+
+
   })
 
 });
