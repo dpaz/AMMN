@@ -90,9 +90,9 @@ a{
 }
 
 #changeColor{
-  background: rgb(255, 255, 255) none repeat scroll 255 255;
-  border: 1px solid rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
+  background: rgb(0, 0, 0) none repeat scroll 0 0;
+  border: 1px solid rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   cursor: default;
   margin-bottom: 10px;
   padding: 5px;
