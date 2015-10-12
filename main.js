@@ -245,12 +245,14 @@ $(document).ready(function() {
     location.reload();
   })
 
+  //Boton para cambiar el color del fondo y las letras
+
   $('#changeColor').click(function(){
     if(white){
       $('link[href="main.css"]').attr('href','dark.css');
       white=false;
     }else{
-      $('link[href="dark.css"]').attr('href','main.css');      
+      $('link[href="dark.css"]').attr('href','main.css');
       white=true;
     }
 
