@@ -247,6 +247,28 @@ $(document).ready(function() {
 
   $('#changeColor').click(function(){
     if(white){
+      $('link[href="main.css"]').attr('href','dark.css');
+      console.log("negro");
+      white=false;
+    }else{
+      $('link[href="dark.css"]').attr('href','main.css');      
+      console.log("blanco");
+      white=true;
+    }
+
+
+  })
+
+});
+/*
+$('#grayscale').click(function (){
+   $('link[href="style1.css"]').attr('href','style2.css');
+});
+$('#original').click(function (){
+   $('link[href="style2.css"]').attr('href','style1.css');
+});
+
+    if(white){
       $('html, body').css('background', 'rgb(0, 0, 0) none repeat scroll 0 0');
       $('html, body').css('border-color', 'rgb(255, 255, 255)');
       $('html, body').css('color', 'rgb(255, 255, 255)');
@@ -263,8 +285,4 @@ $(document).ready(function() {
       $(this).css('color', 'rgb(255, 255, 255)');
       white=true;
     }
-
-
-  })
-
-});
+*/
