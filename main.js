@@ -7,6 +7,7 @@ $(document).ready(function() {
   $('#upgrade1').tooltip();
   $('#jobFarmer').tooltip();
 
+
   var eucalyptus;
   var house;
   var koalas;
@@ -233,16 +234,31 @@ $(document).ready(function() {
 
 
   $('#wipe').click(function(){
+    $('#content').append("<div class=alert alert-warning alert-dismissable><button type=button class=close data-dismiss=alert>&times;</button>Save data will be wiped,are you sure? <a class=alert-link id=alert-wipe>Yes</a></div>");
+      $("#alert-wipe").click(function(){
+        localStorage.setItem("eucalyptus",undefined);
+        localStorage.setItem("house",undefined);
+        localStorage.setItem("koalas",undefined);
+        localStorage.setItem("farmer",undefined);
+        localStorage.setItem("era","<h2>FIRST ERA</h2>");
+
+        location.reload();
+      })
+
+  })
+    
 
 
-    localStorage.setItem("eucalyptus",undefined);
-    localStorage.setItem("house",undefined);
-    localStorage.setItem("koalas",undefined);
-    localStorage.setItem("farmer",undefined);
-    localStorage.setItem("era","<h2>FIRST ERA</h2>");
-    console.log("wipe save");
+  $('#save').click(function(){
 
-    location.reload();
+
+    localStorage.setItem("eucalyptus",JSON.stringify(eucalyptus));
+    localStorage.setItem("house",JSON.stringify(house));
+    localStorage.setItem("koalas",JSON.stringify(koala));
+    localStorage.setItem("farmer",JSON.stringify(farmer));
+    localStorage.setItem("era",era.html());
+    console.log("guardado");
+
   })
 
   //Boton para cambiar el color del fondo y las letras
