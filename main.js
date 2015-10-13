@@ -15,7 +15,7 @@ $(document).ready(function() {
   var era = $('#container-era');
   var white= true;
 
-  var interSave = 10000;
+  var interSave = 60000;
 
   //VARIABLES PROVISIONALES PARA LAS ERAS
   var bCity=false;
@@ -47,7 +47,7 @@ $(document).ready(function() {
       eucalyptus.quantity -= koala.cost;
       koala.quantity ++;
       koala.available++;
-      koala.cost = Math.round(1.75*koala.cost);
+      koala.cost = Math.round(1.75*koala.cost); // BALANCEO
       $(koala.button).tooltip('hide').attr('data-original-title', "Recruit a koala | " + koala.cost + " eucalyptus" ).tooltip('fixTitle').tooltip('show');    //MODIFICACIONES DEL INFO
       eucalyptus.counter.text(eucalyptus.quantity);
       koala.counter.text(koala.quantity+"/"+koala.max);
@@ -67,7 +67,7 @@ $(document).ready(function() {
       $(house.button).tooltip('hide').attr('data-original-title', "Get a house | " + house.cost + " eucalyptus | +5 limit koala.max" ).tooltip('fixTitle').tooltip('show');   //MODIFICACIONES DEL INFO
       house.button.html("House (" + house.quantity + ")");    //CAMBIAMOS EL HTML MEJOR PARA QUE OCUPE MENOS ESPACIO Y NO CREAR MUCHOS DIVS
       eucalyptus.counter.text(eucalyptus.quantity);
-      koala.max+=5;
+      koala.max+=5;  //BALANCEO
       koala.counter.text(koala.quantity+"/"+koala.max);
         if (eucalyptus.quantity < house.cost) {
 
@@ -226,9 +226,9 @@ $(document).ready(function() {
       $('#tabs').append("<li><a href=#mycity data-toggle=tab>City</a></li>");
       $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>Upgrades</a></li>");
     }else if(era.html()=="<h2>FOURTH ERA</h2>"){
-      $('#tabs').append("<li><a href=#myjobs data-toggle=tab>Jobs</a></li>");
       $('#tabs').append("<li><a href=#mycity data-toggle=tab>City</a></li>");
       $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>Upgrades</a></li>");
+      $('#tabs').append("<li><a href=#myjobs data-toggle=tab>Jobs</a></li>");
     }
   }
 
