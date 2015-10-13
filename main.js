@@ -221,14 +221,14 @@ $(document).ready(function() {
 
     //If para que aparezcan los tabs seguro que debe haber un metodo mejor
     if(era.html()=="<h2>SECOND ERA</h2>"){
-      $('#tabs').append("<li><a href=#mycity data-toggle=tab>city</a></li>");
+      $('#tabs').append("<li><a href=#mycity data-toggle=tab>City</a></li>");
     }else if(era.html()=="<h2>THIRD ERA</h2>"){
-      $('#tabs').append("<li><a href=#mycity data-toggle=tab>city</a></li>");
-      $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>upgrades</a></li>");
+      $('#tabs').append("<li><a href=#mycity data-toggle=tab>City</a></li>");
+      $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>Upgrades</a></li>");
     }else if(era.html()=="<h2>FOURTH ERA</h2>"){
-      $('#tabs').append("<li><a href=#myjobs data-toggle=tab>jobs</a></li>");
-      $('#tabs').append("<li><a href=#mycity data-toggle=tab>city</a></li>");
-      $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>upgrades</a></li>");
+      $('#tabs').append("<li><a href=#myjobs data-toggle=tab>Jobs</a></li>");
+      $('#tabs').append("<li><a href=#mycity data-toggle=tab>City</a></li>");
+      $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>Upgrades</a></li>");
     }
   }
 
