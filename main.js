@@ -4,12 +4,14 @@ $(document).ready(function() {
   $('#tabs').tab();
   $('#recruitKoala').tooltip();
   $('#getHouse').tooltip();
+  $('#getWarehouse').tooltip();
   $('#upgrade1').tooltip();
   $('#jobFarmer').tooltip();
 
 
   var eucalyptus;
   var house;
+  var warehouse;
   var koalas;
   var farmer;
   var era = $('#container-era');
@@ -27,18 +29,23 @@ $(document).ready(function() {
   console.log(koala.quantity)
   //BOTON DE CONSEGUIR eucalyptus
   $('#geteucalyptus').click(function() {
-
-    eucalyptus.quantity += eucalyptus.perClick;
-    eucalyptus.counter.text(eucalyptus.quantity);
-    if(eucalyptus.quantity >= koala.cost){
-      koala.button.attr('class', 'btn noselect');
+    if(eucalyptus.quantity< eucalyptus.max){
+      eucalyptus.quantity += eucalyptus.perClick;
+      eucalyptus.counter.text(eucalyptus.quantity+"/"+eucalyptus.max);
+      if(eucalyptus.quantity >= koala.cost){
+        koala.button.attr('class', 'btn noselect');
+      }
+      if (eucalyptus.quantity >= house.cost) {
+        house.button.attr('class', 'btn noselect');
+      };
+      if (eucalyptus.quantity >= warehouse.cost) {
+        warehouse.button.attr('class', 'btn noselect');
+      };
+      if (eucalyptus.quantity >= 20) {
+        $('#upgrade1').attr('class', 'btn noselect');
+      };
     }
-    if (eucalyptus.quantity >= house.cost) {
-      house.button.attr('class', 'btn noselect');
-    };
-    if (eucalyptus.quantity >= 20) {
-      $('#upgrade1').attr('class', 'btn noselect');
-    };
+
   });
 
   //BOTON DE COMPRAR KOALA
@@ -72,6 +79,24 @@ $(document).ready(function() {
         if (eucalyptus.quantity < house.cost) {
 
           house.button.attr('class','btn noselect notYet');
+        };
+    }
+  });
+
+  $(warehouse.button).click(function() {
+
+    if(eucalyptus.quantity >= warehouse.cost){
+      eucalyptus.quantity -= warehouse.cost;
+      warehouse.quantity++;
+      warehouse.cost = 40+Math.round(0.5*warehouse.cost);
+      $(warehouse.button).tooltip('hide').attr('data-original-title', "Get a warehouse | " + warehouse.cost + " eucalyptus | +30 limit eucalyptus.max" ).tooltip('fixTitle').tooltip('show');   //MODIFICACIONES DEL INFO
+      warehouse.button.html("Warehouse (" + warehouse.quantity + ")");    //CAMBIAMOS EL HTML MEJOR PARA QUE OCUPE MENOS ESPACIO Y NO CREAR MUCHOS DIVS
+      eucalyptus.counter.text(eucalyptus.quantity);
+      eucalyptus.max+=35;  //BALANCEO
+      eucalyptus.counter.text(eucalyptus.quantity+"/"+eucalyptus.max);
+        if (eucalyptus.quantity < warehouse.cost) {
+
+          warehouse.button.attr('class','btn noselect notYet');
         };
     }
   });
@@ -195,6 +220,20 @@ $(document).ready(function() {
       house.button.html("House (" + house.quantity + ")");
     }
 
+    try{
+      warehouse = JSON.parse(localStorage.getItem("warehouse"));
+      if(warehouse == undefined || warehouse == ""){
+        warehouse = new Building("warehouse", 1,0,40,$('#getWarehouse'));
+      }else{
+        warehouse.button = $('#getWarehouse');
+        warehouse.button.html("Warehouse (" + warehouse.quantity + ")");    //CAMBIAMOS EL HTML MEJOR PARA QUE OCUPE MENOS ESPACIO Y NO CREAR MUCHOS DIVS
+      }
+    }catch(err){
+      warehouse = new Building("warehouse", 1,0,40,$('#getWarehouse'));
+      warehouse.button = $('#getWarehouse');
+      warehouse.button.html("Warehouse (" + warehouse.quantity + ")");
+    }
+
     //Load Farmer
     try{
       farmer = JSON.parse(localStorage.getItem("farmer"));
@@ -234,7 +273,7 @@ $(document).ready(function() {
 
 
   $('#wipe').click(function(){
-    $('#content').append("<div class=alert alert-warning alert-dismissable><button type=button class=close data-dismiss=alert>&times;</button>Save data will be wiped,are you sure? <a class=alert-link id=alert-wipe>Yes</a></div>");
+    $('#content').append("<div class=alert alert-warning alert-dismissable><button type=button class=close data-dismiss=alert>&times;</button>Save data will be wiped,are you sure? <a class=alert-link id=\"alert-wipe\">Yes</a></div>");
       $("#alert-wipe").click(function(){
         localStorage.setItem("eucalyptus",undefined);
         localStorage.setItem("house",undefined);
@@ -246,7 +285,6 @@ $(document).ready(function() {
       })
 
   })
-    
 
 
   $('#save').click(function(){
