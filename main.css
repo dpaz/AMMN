@@ -8,7 +8,6 @@ body{
     width: 100% ;
     display: inline-block;
     float: none ;
-
     vertical-align: middle;
     padding: 15px;
     border: solid;
@@ -20,6 +19,7 @@ body{
     display: inline-block;
     width:75%;
     float:left;
+    height: 400px;
     overflow-y: scroll;
 }
 
