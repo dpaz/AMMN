@@ -3,7 +3,6 @@
 <head>
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="dark.css" rel="stylesheet">
     <link href="main.css" rel="stylesheet">
     <title>AMMN</title>
 </head>
@@ -18,7 +17,6 @@
                 <li class="active"><a href="#timeline" data-toggle="tab">Index</a></li>
                 <li><a href="#myachievements" data-toggle="tab">Achievements</a></li>
                 <li><a href="#options" data-toggle="tab">Options</a></li>
-                <li><a href=#mycity data-toggle=tab>City</a></li>
             </ul>
             <div id="my-tab-content" class="tab-content">
                 <div class="tab-pane active" id="timeline">
@@ -75,6 +73,10 @@
                       <p>Eucalyptus</p>
                       <div id="eucalyptusCounter">0</div>
                     </div>
+                    <div id="wood">
+                      <p>Wood</p>
+                      <div id="woodCounter">0</div>
+                    </div>
                     <div id="koala">
                       <p>Koala</p>
                       <div id="koalaCounter">0/2</div>
@@ -83,7 +85,7 @@
         </div>
 
 
-        <button  class="btn noselect" id="changeColor">Change Color</button>
+        <button  class="btn noselect" id="changeColor" value="white">Change Color</button>
     </div> <!-- container -->
 
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>

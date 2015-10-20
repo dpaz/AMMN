@@ -20,14 +20,15 @@ body{
     display: inline-block;
     width:75%;
     float:left;
-    /*overflow-y: scroll;*/
+    overflow-y: scroll;
 }
 
 #log{
     display: inline-block;
     width:25%;
+    height: 400px;
     float:left;
-    /*overflow-y: scroll;*/
+    overflow-y: scroll;
 }
 
 a{

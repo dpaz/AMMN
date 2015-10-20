@@ -4,14 +4,12 @@ $(document).ready(function() {
   $('#tabs').tab();
   $('#recruitKoala').tooltip();
   $('#getHouse').tooltip();
-  $('#getWarehouse').tooltip();
   $('#upgrade1').tooltip();
   $('#jobFarmer').tooltip();
 
 
   var eucalyptus;
   var house;
-  var warehouse;
   var koalas;
   var farmer;
   var era = $('#container-era');
@@ -29,28 +27,24 @@ $(document).ready(function() {
   console.log(koala.quantity)
   //BOTON DE CONSEGUIR eucalyptus
   $('#geteucalyptus').click(function() {
-    if(eucalyptus.quantity< eucalyptus.max){
-      eucalyptus.quantity += eucalyptus.perClick;
-      eucalyptus.counter.text(eucalyptus.quantity+"/"+eucalyptus.max);
-      if(eucalyptus.quantity >= koala.cost){
-        koala.button.attr('class', 'btn noselect');
-      }
-      if (eucalyptus.quantity >= house.cost) {
-        house.button.attr('class', 'btn noselect');
-      };
-      if (eucalyptus.quantity >= warehouse.cost) {
-        warehouse.button.attr('class', 'btn noselect');
-      };
-      if (eucalyptus.quantity >= 20) {
-        $('#upgrade1').attr('class', 'btn noselect');
-      };
-    }
 
+    eucalyptus.quantity += eucalyptus.perClick;
+    eucalyptus.counter.text(eucalyptus.quantity);
+    if(eucalyptus.quantity >= koala.cost){
+      koala.button.attr('class', 'btn noselect');
+    }
+    if (eucalyptus.quantity >= house.cost) {
+      house.button.attr('class', 'btn noselect');
+    };
+    if (eucalyptus.quantity >= 20) {
+      $('#upgrade1').attr('class', 'btn noselect');
+    };
   });
 
   //BOTON DE COMPRAR KOALA
   $(koala.button).click(function(){
     if(koala.quantity < koala.max && eucalyptus.quantity >= koala.cost){
+      $('#log').prepend("You buy 1 koala\n","<br />");
       eucalyptus.quantity -= koala.cost;
       koala.quantity ++;
       koala.available++;
@@ -68,6 +62,7 @@ $(document).ready(function() {
   $(house.button).click(function() {
 
     if(eucalyptus.quantity >= house.cost){
+      $('#log').prepend("You buy 1 house\n","<br />");
       eucalyptus.quantity -= house.cost;
       house.quantity++;
       house.cost = 15+Math.round(0.5*house.cost);
@@ -83,29 +78,12 @@ $(document).ready(function() {
     }
   });
 
-  $(warehouse.button).click(function() {
-
-    if(eucalyptus.quantity >= warehouse.cost){
-      eucalyptus.quantity -= warehouse.cost;
-      warehouse.quantity++;
-      warehouse.cost = 40+Math.round(0.5*warehouse.cost);
-      $(warehouse.button).tooltip('hide').attr('data-original-title', "Get a warehouse | " + warehouse.cost + " eucalyptus | +30 limit eucalyptus.max" ).tooltip('fixTitle').tooltip('show');   //MODIFICACIONES DEL INFO
-      warehouse.button.html("Warehouse (" + warehouse.quantity + ")");    //CAMBIAMOS EL HTML MEJOR PARA QUE OCUPE MENOS ESPACIO Y NO CREAR MUCHOS DIVS
-      eucalyptus.counter.text(eucalyptus.quantity);
-      eucalyptus.max+=35;  //BALANCEO
-      eucalyptus.counter.text(eucalyptus.quantity+"/"+eucalyptus.max);
-        if (eucalyptus.quantity < warehouse.cost) {
-
-          warehouse.button.attr('class','btn noselect notYet');
-        };
-    }
-  });
-
   //PRUEBA DE UPGRADE
   $('#upgrade1').click(function(){
-    if (eucalyptus.quantity >=1) {
-      eucalyptus.perClick+=10;
-      eucalyptus.quantity -=1;
+    if (eucalyptus.quantity >=0) {
+      $('#log').prepend("You take X upgrade\n","<br />");
+      eucalyptus.perClick+=1000;
+      eucalyptus.quantity -=0;
       eucalyptus.counter.text(eucalyptus.quantity);
     };
     console.log(eucalyptus.perClick)
@@ -118,18 +96,22 @@ $(document).ready(function() {
   $('#container-era').click(function(){
     if (!bCity) {
       bCity = true;
-      $('#tabs').append("<li><a href=#mycity data-toggle=tab>city</a></li>");
+      $('#tabs').append("<li><a href=#mycity data-toggle=tab>City</a></li>");
       $('#myachievements ul').append("<li>Your first advance</li>");
       $('#container-era').html("<h2>SECOND ERA</h2>");
+      $('#log').prepend("You promote to the second era\n","<br />");
     }else if (bCity && !bupgrades) {
       bupgrades = true;
-      $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>upgrades</a></li>");
+      $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>Upgrades</a></li>");
       $('#myachievements ul').append("<li>Your second advance</li>");
       $('#container-era').html("<h2>THIRD ERA</h2>");
+      $('#log').prepend("You promote to the third era\n","<br />");
+
     }else if (bupgrades && !bjobs){
       bjobs = true;
-      $('#tabs').append("<li><a href=#myjobs data-toggle=tab>jobs</a></li>");
+      $('#tabs').append("<li><a href=#myjobs data-toggle=tab>Jobs</a></li>");
       $('#container-era').html("<h2>FOURTH ERA</h2>");
+      $('#log').prepend("You promote to the fourth era\n","<br />");
     };
   });
 
@@ -167,6 +149,7 @@ $(document).ready(function() {
     localStorage.setItem("koalas",JSON.stringify(koala));
     localStorage.setItem("farmer",JSON.stringify(farmer));
     localStorage.setItem("era",era.html());
+    $('#log').prepend("Saved\n","<br />");
     console.log("guardado");
   }, interSave)
 
@@ -220,20 +203,6 @@ $(document).ready(function() {
       house.button.html("House (" + house.quantity + ")");
     }
 
-    try{
-      warehouse = JSON.parse(localStorage.getItem("warehouse"));
-      if(warehouse == undefined || warehouse == ""){
-        warehouse = new Building("warehouse", 1,0,40,$('#getWarehouse'));
-      }else{
-        warehouse.button = $('#getWarehouse');
-        warehouse.button.html("Warehouse (" + warehouse.quantity + ")");    //CAMBIAMOS EL HTML MEJOR PARA QUE OCUPE MENOS ESPACIO Y NO CREAR MUCHOS DIVS
-      }
-    }catch(err){
-      warehouse = new Building("warehouse", 1,0,40,$('#getWarehouse'));
-      warehouse.button = $('#getWarehouse');
-      warehouse.button.html("Warehouse (" + warehouse.quantity + ")");
-    }
-
     //Load Farmer
     try{
       farmer = JSON.parse(localStorage.getItem("farmer"));
@@ -262,41 +231,33 @@ $(document).ready(function() {
     if(era.html()=="<h2>SECOND ERA</h2>"){
       $('#tabs').append("<li><a href=#mycity data-toggle=tab>City</a></li>");
     }else if(era.html()=="<h2>THIRD ERA</h2>"){
-      $('#tabs').append("<li><a href=#mycity data-toggle=tab>City</a></li>");
       $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>Upgrades</a></li>");
     }else if(era.html()=="<h2>FOURTH ERA</h2>"){
-      $('#tabs').append("<li><a href=#mycity data-toggle=tab>City</a></li>");
-      $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>Upgrades</a></li>");
       $('#tabs').append("<li><a href=#myjobs data-toggle=tab>Jobs</a></li>");
     }
   }
 
 
   $('#wipe').click(function(){
-    $('#content').append("<div class=alert alert-warning alert-dismissable><button type=button class=close data-dismiss=alert>&times;</button>Save data will be wiped,are you sure? <a class=alert-link id=\"alert-wipe\">Yes</a></div>");
-      $("#alert-wipe").click(function(){
+    if (confirm("Save data will be wiped, are you sure?")){
         localStorage.setItem("eucalyptus",undefined);
         localStorage.setItem("house",undefined);
         localStorage.setItem("koalas",undefined);
         localStorage.setItem("farmer",undefined);
         localStorage.setItem("era","<h2>FIRST ERA</h2>");
-
         location.reload();
-      })
-
+      }
   })
+    
 
 
   $('#save').click(function(){
-
-
     localStorage.setItem("eucalyptus",JSON.stringify(eucalyptus));
     localStorage.setItem("house",JSON.stringify(house));
     localStorage.setItem("koalas",JSON.stringify(koala));
     localStorage.setItem("farmer",JSON.stringify(farmer));
     localStorage.setItem("era",era.html());
-    console.log("guardado");
-
+    $('#log').prepend("Saved\n","<br />");
   })
 
   //Boton para cambiar el color del fondo y las letras
@@ -309,8 +270,6 @@ $(document).ready(function() {
       $('link[href="dark.css"]').attr('href','main.css');
       white=true;
     }
-
-
   })
 
 });
