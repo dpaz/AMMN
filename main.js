@@ -23,6 +23,9 @@ $(document).ready(function() {
   var bjobs = false;
 
 
+ 
+
+
   loadGame();
   console.log(koala.quantity)
   //BOTON DE CONSEGUIR eucalyptus
@@ -30,6 +33,7 @@ $(document).ready(function() {
 
     eucalyptus.quantity += eucalyptus.perClick;
     eucalyptus.counter.text(eucalyptus.quantity);
+    addToSave(eucalyptus);
     if(eucalyptus.quantity >= koala.cost){
       koala.button.attr('class', 'btn noselect');
     }
@@ -142,8 +146,14 @@ $(document).ready(function() {
 
   //Cada minuto guarda el valor de las variables
   //JSON.stringify convierte el objeto a JSON ya que solo se pueden guardar strings con localstorage
-  window.setInterval(function(){
+  window.setInterval(saveGame, interSave);
 
+
+ 
+
+
+
+  function saveGame(){
     localStorage.setItem("eucalyptus",JSON.stringify(eucalyptus));
     localStorage.setItem("house",JSON.stringify(house));
     localStorage.setItem("koalas",JSON.stringify(koala));
@@ -151,7 +161,7 @@ $(document).ready(function() {
     localStorage.setItem("era",era.html());
     $('#log').prepend("Saved\n","<br />");
     console.log("guardado");
-  }, interSave)
+  }
 
   //Para cargar los datos se llama al item que antes hemos creado y se parsea
   function loadGame(){
@@ -251,14 +261,7 @@ $(document).ready(function() {
     
 
 
-  $('#save').click(function(){
-    localStorage.setItem("eucalyptus",JSON.stringify(eucalyptus));
-    localStorage.setItem("house",JSON.stringify(house));
-    localStorage.setItem("koalas",JSON.stringify(koala));
-    localStorage.setItem("farmer",JSON.stringify(farmer));
-    localStorage.setItem("era",era.html());
-    $('#log').prepend("Saved\n","<br />");
-  })
+  $('#save').click(saveGame);
 
   //Boton para cambiar el color del fondo y las letras
 
