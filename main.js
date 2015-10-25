@@ -1,11 +1,13 @@
 $(document).ready(function() {
 
+  var height = $(window).height();
 
   $('#tabs').tab();
   $('#recruitKoala').tooltip();
   $('#getHouse').tooltip();
   $('#upgrade1').tooltip();
   $('#jobFarmer').tooltip();
+  $('#container-top').css('height',height/2 + "px");
 
 
   var eucalyptus;
@@ -23,9 +25,6 @@ $(document).ready(function() {
   var bjobs = false;
 
 
- 
-
-
   loadGame();
   console.log(koala.quantity)
   //BOTON DE CONSEGUIR eucalyptus
@@ -33,7 +32,6 @@ $(document).ready(function() {
 
     eucalyptus.quantity += eucalyptus.perClick;
     eucalyptus.counter.text(eucalyptus.quantity);
-    addToSave(eucalyptus);
     if(eucalyptus.quantity >= koala.cost){
       koala.button.attr('class', 'btn noselect');
     }
@@ -146,14 +144,8 @@ $(document).ready(function() {
 
   //Cada minuto guarda el valor de las variables
   //JSON.stringify convierte el objeto a JSON ya que solo se pueden guardar strings con localstorage
-  window.setInterval(saveGame, interSave);
+  window.setInterval(function(){
 
-
- 
-
-
-
-  function saveGame(){
     localStorage.setItem("eucalyptus",JSON.stringify(eucalyptus));
     localStorage.setItem("house",JSON.stringify(house));
     localStorage.setItem("koalas",JSON.stringify(koala));
@@ -161,7 +153,7 @@ $(document).ready(function() {
     localStorage.setItem("era",era.html());
     $('#log').prepend("Saved\n","<br />");
     console.log("guardado");
-  }
+  }, interSave)
 
   //Para cargar los datos se llama al item que antes hemos creado y se parsea
   function loadGame(){
@@ -258,10 +250,17 @@ $(document).ready(function() {
         location.reload();
       }
   })
-    
 
 
-  $('#save').click(saveGame);
+
+  $('#save').click(function(){
+    localStorage.setItem("eucalyptus",JSON.stringify(eucalyptus));
+    localStorage.setItem("house",JSON.stringify(house));
+    localStorage.setItem("koalas",JSON.stringify(koala));
+    localStorage.setItem("farmer",JSON.stringify(farmer));
+    localStorage.setItem("era",era.html());
+    $('#log').prepend("Saved\n","<br />");
+  })
 
   //Boton para cambiar el color del fondo y las letras
 
