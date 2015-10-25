@@ -28,7 +28,7 @@ body{
     width:25%;
     height: 400px;
     float:left;
-    overflow-y: scroll;
+    overflow: auto;
 }
 
 a{
