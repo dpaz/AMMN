@@ -9,9 +9,8 @@ body{
     display: inline-block;
     float: none ;
     vertical-align: middle;
-    padding: 15px;
+    padding: 10px;
     border: solid;
-    height: 150%;
 
 }
 
@@ -20,7 +19,6 @@ body{
     display: inline-block;
     width:75%;
     float:left;
-    overflow: auto;
 }
 
 #log{
@@ -46,8 +44,8 @@ a{
 #container-era{
     float: middle;
     width: 100%;
-    height: 20%;
-    padding: 15px;
+    height: 15%;
+    padding: 10px;
     border: solid;
 }
 

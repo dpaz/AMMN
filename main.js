@@ -7,12 +7,12 @@ $(document).ready(function() {
   $('#getHouse').tooltip();
   $('#upgrade1').tooltip();
   $('#jobFarmer').tooltip();
-  $('#container-top').css('height',height/2 + "px");
+  $('#container-top').css('height',height/3.5 + "px");
 
 
   var eucalyptus;
   var house;
-  var koalas;
+  var koala;
   var farmer;
   var era = $('#container-era');
   var white= true;
@@ -26,6 +26,13 @@ $(document).ready(function() {
 
 
   loadGame();
+
+  erasDictionary={
+   "one":[eucalyptus,30,koala,2, 1],
+   "two":[eucalyptus,300,house,2,koala,5,2]
+  };
+
+
   console.log(koala.quantity)
   //BOTON DE CONSEGUIR eucalyptus
   $('#geteucalyptus').click(function() {
@@ -95,7 +102,8 @@ $(document).ready(function() {
 
 
   //AVANZAR ERAS, CONTIENE ALGUNAS PRUEBAS PARA LOGROS Y CAMBIOS EN EL BOTON DE CAMBIO DE ERA
-  $('#container-era').click(function(){
+  //A PRIORI ESTO NO VALE
+  /*$('#container-era').click(function(){
     if (!bCity) {
       bCity = true;
       $('#tabs').append("<li><a href=#mycity data-toggle=tab>City</a></li>");
@@ -115,7 +123,45 @@ $(document).ready(function() {
       $('#container-era').html("<h2>FOURTH ERA</h2>");
       $('#log').prepend("You promote to the fourth era\n","<br />");
     };
+  });*/
+  $('#container-era').click(function(){
+    var changeEra = true;
+    var longEra = erasDictionary[era.number].length;
+    console.log(longEra);
+
+
+    for(var i= 0; i< longEra ; i += 2){
+
+      if(erasDictionary[era.number][i].quantity < erasDictionary[era.number][i+1]){
+        console.log( erasDictionary[era.number][i].quantity + "  " + erasDictionary[era.number][i+1]);
+        changeEra = false;
+      }
+    }
+
+
+    if(changeEra){
+      /*
+      El ultimo elemento del array de cada era es un int que contiene el numero de elementos
+      de los que son necesarios para subir de era a los que hay que restar cosas ejemplo:
+      en la era 1 se necesitan x eucalyptus y x koalas, pero solo se restan eucalyptus al  subir de era
+      por lo tanto el numero es un 1.
+      Si en la era dos se restan casas y eucalyptus el elemento final del array sera 2
+      Para que esto funcione hay que ordenar bien el array de eras siempre poniendo primero las variables
+      a las que hay que restar cosas
+      */
+      var subtractionNumber = erasDictionary[era.number][longEra -1];
+
+      for(var i= 0; i<  subtractionNumber; i ++){
+
+        erasDictionary[era.number][i].quantity  = erasDictionary[era.number][i].quantity - erasDictionary[era.number][i+1];
+
+      }
+    }
+    //HACER FUNCION REFRESH
+    console.log(erasDictionary[era.number][0].quantity);
+    console.log(eucalyptus.quantity);
   });
+
 
   $('#sucFarmer').click(function(){
     if (farmer.quantity > 0) {
@@ -224,14 +270,16 @@ $(document).ready(function() {
 
     era.html(localStorage.era);
     console.log(era.html());
-    if(era.html()==""){
-      era.html("<h2>FIRST ERA</h2>")
+    if(era.html()=="" || era.html() == "<h2>FIRST ERA</h2>"){
+      era.html("<h2>FIRST ERA</h2>");
+      era.number = "one";
     }
 
 
     //If para que aparezcan los tabs seguro que debe haber un metodo mejor
     if(era.html()=="<h2>SECOND ERA</h2>"){
       $('#tabs').append("<li><a href=#mycity data-toggle=tab>City</a></li>");
+      era.number = "two";
     }else if(era.html()=="<h2>THIRD ERA</h2>"){
       $('#tabs').append("<li><a href=#myupgrades data-toggle=tab>Upgrades</a></li>");
     }else if(era.html()=="<h2>FOURTH ERA</h2>"){
@@ -273,5 +321,7 @@ $(document).ready(function() {
       white=true;
     }
   })
+
+
 
 });
