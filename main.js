@@ -25,7 +25,21 @@ $(document).ready(function() {
   var bjobs = false;
 
 
+
+
+
+
+
+
   loadGame();
+
+
+
+  //arrays que contienen todos los objetos de un tipo para un guardado mas facil
+  var arResources = [eucalyptus];
+  var arBuildings = [house];
+  var arJobs = [farmer];
+
 
   erasDictionary={
    "one":[eucalyptus,30,koala,2, 1],
@@ -134,6 +148,9 @@ $(document).ready(function() {
 
       if(erasDictionary[era.number][i].quantity < erasDictionary[era.number][i+1]){
         console.log( erasDictionary[era.number][i].quantity + "  " + erasDictionary[era.number][i+1]);
+
+        quantityNeed = erasDictionary[era.number][i+1]- erasDictionary[era.number][i].quantity;
+        $('#log').prepend("You will need "+quantityNeed+" "+erasDictionary[era.number][i].name+" more","<br />");
         changeEra = false;
       }
     }
@@ -190,16 +207,26 @@ $(document).ready(function() {
 
   //Cada minuto guarda el valor de las variables
   //JSON.stringify convierte el objeto a JSON ya que solo se pueden guardar strings con localstorage
-  window.setInterval(function(){
+  window.setInterval(saveGame, interSave);
 
-    localStorage.setItem("eucalyptus",JSON.stringify(eucalyptus));
-    localStorage.setItem("house",JSON.stringify(house));
+  function saveGame(){
+
+    arResources.forEach(function(elem){
+      localStorage.setItem(elem.name,JSON.stringify(elem));
+      
+    });
+    arBuildings.forEach(function(elem){
+      localStorage.setItem(elem.name,JSON.stringify(elem));
+    });
+    arJobs.forEach(function(elem){
+      localStorage.setItem(elem.name,JSON.stringify(elem));
+    });
     localStorage.setItem("koalas",JSON.stringify(koala));
-    localStorage.setItem("farmer",JSON.stringify(farmer));
     localStorage.setItem("era",era.html());
-    $('#log').prepend("Saved\n","<br />");
+
+    
     console.log("guardado");
-  }, interSave)
+  }
 
   //Para cargar los datos se llama al item que antes hemos creado y se parsea
   function loadGame(){
@@ -302,13 +329,9 @@ $(document).ready(function() {
 
 
   $('#save').click(function(){
-    localStorage.setItem("eucalyptus",JSON.stringify(eucalyptus));
-    localStorage.setItem("house",JSON.stringify(house));
-    localStorage.setItem("koalas",JSON.stringify(koala));
-    localStorage.setItem("farmer",JSON.stringify(farmer));
-    localStorage.setItem("era",era.html());
+    saveGame();
     $('#log').prepend("Saved\n","<br />");
-  })
+  });
 
   //Boton para cambiar el color del fondo y las letras
 
